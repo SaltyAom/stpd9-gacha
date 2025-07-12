@@ -176,6 +176,11 @@
                                 <div
                                     class="text-xl text-white bg-sky-900 p-0.5 -skew-x-12 rounded"
                                 >
+                                    <img
+                                        class="absolute skew-x-12 -left-3 -top-0.5 h-9"
+                                        src="pyrox.webp"
+                                        alt="Pyroxene"
+                                    />
                                     <s class="opacity-75 text-base">120</s>
                                     <span class="ml-2 mr-8">0</span>
                                 </div>
@@ -199,9 +204,14 @@
                                 class="flex flex-col justify-center gap-2 min-w-40"
                             >
                                 <div
-                                    class="text-xl text-white bg-yellow-900 p-0.5 -skew-x-12 rounded"
+                                    class="relative text-xl text-white bg-yellow-900 p-0.5 -skew-x-12 rounded"
                                 >
-                                    <s class="opacity-75 text-base"> 1,200 </s>
+                                    <img
+                                        class="absolute skew-x-12 -left-3 -top-0.5 h-9"
+                                        src="pyrox.webp"
+                                        alt="Pyroxene"
+                                    />
+                                    <s class="opacity-75 text-base">1,200</s>
                                     <span class="ml-2 mr-8">0</span>
                                 </div>
                                 <p
@@ -216,19 +226,20 @@
             </div>
 
             <footer
-                class="flex flex-col sm:flex-row gap-2 sm:gap-6 text-2xl px-6 py-2 bg-sky-500/30"
+                class="flex flex-col sm:flex-row gap-2 sm:gap-6 text-2xl px-6 py-2 bg-sky-300/50"
             >
-                <div class="flex flex-1 py-1">
+                <div class="flex flex-1 py-1 pl-12">
                     <div
                         class="flex justify-center items-center w-full -skew-x-12 border-2 border-sky-900/70 rounded"
                     >
+                   		<img src="/point.webp" alt="Point" class="absolute -top-2 -left-11 h-18" />
                         <p class="flex flex-2 justify-center p-2.5 bg-white">
                             <span class="text-sky-800 skew-x-12">
                                 แต้มเปิดรับ
                             </span>
                         </p>
                         <p
-                            class="flex flex-1 justify-center p-2.5 bg-sky-900/80"
+                            class="flex flex-1 justify-center p-2.5 bg-sky-900/90"
                         >
                             <span class="text-white skew-x-12" id="total-pull">
                             </span>
@@ -237,7 +248,7 @@
                 </div>
                 <a
                     href="https://www.eventpop.me/e/96772/sht9"
-                    class="px-12 py-3 -skew-x-12 bg-sky-50/70 text-center text-sky-900 rounded-xl shadow-md shadow-black/20 border border-sky-900/30 active:scale-95 transition-transform duration-200 ease-out"
+                    class="flex justify-center items-center px-12 py-3 -skew-x-12 bg-sky-50/70 text-center text-sky-900 rounded-xl shadow-md shadow-black/20 border border-sky-900/30 active:scale-95 transition-transform duration-200 ease-out"
                 >
                     แลกตั๋ว
                 </a>
@@ -369,7 +380,8 @@
                     <p class="text-sky-900 my-4 font-light">
                         ประวัติการเปิด จะแสดงแค่ 500 ครั้งล่าสุดเท่านั้น
                         <br />
-                        หากเคยสุ่มได้ตั๋ว Stupid Hackathon รหัสบัตรจะถูกแสดงต่อท้าย
+                        หากเคยสุ่มได้ตั๋ว Stupid Hackathon
+                        รหัสบัตรจะถูกแสดงต่อท้าย
                     </p>
 
                     <table class="text-lg">
@@ -400,10 +412,12 @@
         >
             <main
                 id="gacha-result"
-                class="grid gap-8 max-w-7xl w-full mx-auto text-xl lg:text-2xl text-sky-900 text-center"
+                class="grid gap-8 max-w-7xl w-full mx-auto pb-20 lg:pb-0 text-xl lg:text-2xl text-sky-900 text-center"
             ></main>
 
-            <footer class="absolute bottom-16 flex gap-3 sm:gap-6 text-xl sm:text-2xl">
+            <footer
+                class="z-10 absolute bottom-32 lg:bottom-16 flex gap-3 sm:gap-6 text-xl sm:text-2xl"
+            >
                 <button
                     onclick="document.getElementById('gacha').close()"
                     class="px-8 sm:px-12 py-3 sm:py-4 -skew-x-12 bg-sky-300/90 text-sky-900 rounded-xl shadow-md shadow-black/20 border border-sky-900/30 backdrop-blur-xl active:scale-95 transition-transform duration-200 ease-out"
@@ -414,9 +428,26 @@
                     id="retry"
                     class="pull px-8 sm:px-12 py-3 sm:py-4 -skew-x-12 bg-yellow-300/90 text-yellow-900 rounded-xl shadow-md shadow-black/20 border border-sky-900/30 backdrop-blur-xl active:scale-95 transition-transform duration-200 ease-out disabled:active:scale-100 active:scale-95 disabled:opacity-75 disabled:cursor-wait"
                 >
-                    <p class="skew-x-12">เปิดอีกครั้ง</p>
+                    <p class="skew-x-12">เปิดเพิ่มอีกครั้ง</p>
                 </button>
             </footer>
+
+            <div
+                class="absolute bottom-6 lg:bottom-8 right-6 lg:right-8 flex flex-col justify-center items-center max-w-48 w-full -skew-x-12 text-xl border-2 border-sky-900/70 rounded"
+            >
+            	<img src="/point.webp" alt="Point" class="absolute top-0 -left-14 h-17" />
+                <p class="flex w-full justify-center p-1 bg-white">
+                    <span class="text-sky-800 skew-x-12">
+                        แต้มเปิดรับ
+                    </span>
+                </p>
+                <p
+                    class="flex w-full justify-center p-1 bg-sky-900/90"
+                >
+                    <span class="text-white skew-x-12" id="total-pull-in-gacha">
+                    </span>
+                </p>
+            </div>
         </dialog>
 
         <template id="salt">
@@ -448,6 +479,7 @@
             const result = document.getElementById('gacha-result')
             const retry = document.getElementById('retry')
             const totalPull = document.getElementById('total-pull')
+            const totalPullInGacha = document.getElementById('total-pull-in-gacha')
             const pulls = document.querySelectorAll('.pull')
 
             let throttle
@@ -465,6 +497,7 @@
 
             const formatNumber = new Intl.NumberFormat('es-US').format
             totalPull.textContent = formatNumber(history.length)
+            totalPullInGacha.textContent = formatNumber(history.length)
 
             document.documentElement.addEventListener(
                 'click',
@@ -577,6 +610,7 @@
                 localStorage.setItem('gacha-history', JSON.stringify(history))
 
                 totalPull.textContent = formatNumber(history.length)
+                totalPullInGacha.textContent = formatNumber(history.length)
             }
 
             async function pull10() {
@@ -628,6 +662,7 @@
                 localStorage.setItem('gacha-history', JSON.stringify(history))
 
                 totalPull.textContent = formatNumber(history.length)
+                totalPullInGacha.textContent = formatNumber(history.length)
             }
 
             function loadHistory() {
