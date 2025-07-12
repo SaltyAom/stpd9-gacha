@@ -27,6 +27,7 @@
         <link rel="preload" href="/salt-2.webp" as="image" />
         <link rel="preload" href="/salt-3.webp" as="image" />
         <link rel="preload" href="/koyuki.webp" as="image" />
+        <link rel="preload" href="/p-chan.webp" as="image" />
 
         <meta
             name="og:image"
@@ -47,13 +48,22 @@
         <meta name="twitter:title" content="Stupid Hackathon 9 Gacha" />
         <meta name="twitter:description" content="ตู้กาชา Stupid Hackathon 9" />
 
+        <script
+            src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback"
+            defer
+        ></script>
+
         <style>
+            :root {
+                --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+            }
+
             body {
                 font-family: 'Kanit', sans-serif !important;
             }
 
             .fade-in {
-                animation: fadeIn 0.25s ease-out;
+                animation: fadeIn 0.5s var(--ease-out-expo);
             }
 
             @keyframes fadeIn {
@@ -66,7 +76,7 @@
             }
 
             .slide-up {
-                animation: slideUp 0.25s ease-out;
+                animation: slideUp 0.5s var(--ease-out-expo);
             }
 
             @keyframes slideUp {
@@ -81,7 +91,7 @@
             }
 
             .gacha-in {
-                animation: gachaIn 0.25s ease-out;
+                animation: gachaIn 0.5s var(--ease-out-expo);
                 animation-fill-mode: backwards;
             }
 
@@ -138,15 +148,25 @@
                     เมื่อเปิด 10 ครั้ง รับประกันได้เกลือขึ้นไป 1 อัน!
                 </h3>
                 <h3 class="text-gray-600 text-lg pl-2 font-light">
-                    ∴ เกลือที่มีอยู่แล้วจะไม่ได้อะไรเพิ่ม
+                    ∴ หลังจากสุ่มได้ ตั๋ว Stupid Hackathon แล้ว
+                    สามารถแลกรับได้โดยการกรอกรหัสผ่านหน้าเว็บ EventPop ผ่านปุ่ม
+                    "แลกตั๋ว"
                 </h3>
+
+                <p
+                    id="verifying"
+                    class="hidden text-gray-600 text-lg pl-2 font-light mt-4"
+                >
+                    กำลังยืนยันตัวตน กรุณารอสักครู่...
+                </p>
 
                 <section
                     class="flex flex-col sm:flex-row gap-4 sm:gap-6 mt-4 sm:mt-12 px-4"
                 >
                     <button
                         onclick="pull1()"
-                        class="flex flex-1 justify-center items-center bg-sky-400/70 -skew-x-12 text-white font-semibold py-2 rounded-xl shadow-md shadow-black/20 border border-sky-900/30 active:scale-95 transition-transform duration-200 ease-out"
+                        disabled
+                        class="pull flex flex-1 justify-center items-center bg-sky-400/70 -skew-x-12 text-white font-semibold py-2 rounded-xl shadow-md shadow-black/20 border border-sky-900/30 disabled:active:scale-100 active:scale-95 transition-transform duration-200 ease-out disabled:opacity-75 disabled:cursor-wait"
                     >
                         <div class="flex gap-6 font-normal skew-x-12">
                             <img src="/1roll.webp" class="w-20 h-20" />
@@ -170,7 +190,8 @@
 
                     <button
                         onclick="pull10()"
-                        class="flex flex-1 justify-center items-center bg-yellow-400/70 -skew-x-12 text-white font-semibold py-2 rounded-xl shadow-md shadow-black/20 border border-yellow-900/30 active:scale-95 transition-transform duration-200 ease-out"
+                        disabled
+                        class="pull flex flex-1 justify-center items-center bg-yellow-400/70 -skew-x-12 text-white font-semibold py-2 rounded-xl shadow-md shadow-black/20 border border-yellow-900/30 disabled:active:scale-100 active:scale-95 transition-transform duration-200 ease-out disabled:opacity-75 disabled:cursor-wait"
                     >
                         <div class="flex gap-6 font-normal skew-x-12">
                             <img src="/10roll.webp" class="w-20 h-20" />
@@ -280,16 +301,40 @@
                                 <td class="w-full">
                                     รหัสรับตั๋ว Stupid Hackathon (Limited)
                                 </td>
-                                <td class="min-w-36">3 ใบ</td>
+                                <td class="min-w-36">3 ใบ (ซ้ำได้)</td>
                                 <td class="min-w-42">0.01%</td>
+                            </tr>
+                            <tr class="*:px-4 *:py-2">
+                                <td class="w-full">เกลือตรา P-chan</td>
+                                <td class="min-w-36">ไม่จำกัด</td>
+                                <td class="min-w-42">0.5%</td>
+                            </tr>
+                            <tr class="*:px-4 *:py-2">
+                                <td class="w-full">เกลือตรา Koyuki</td>
+                                <td class="min-w-36">ไม่จำกัด</td>
+                                <td class="min-w-42">2%</td>
                             </tr>
                             <tr class="*:px-4 *:py-2">
                                 <td class="w-full">เกลือ</td>
                                 <td class="min-w-36">ไม่จำกัด</td>
-                                <td class="min-w-42">99.99%</td>
+                                <td class="min-w-42">97.49%</td>
                             </tr>
                         </tbody>
                     </table>
+
+                    <p
+                        class="text-sky-900 font-light px-2 mt-4 border-t border-sky-700/20 pt-4"
+                    >
+                        หลังจากสุ่มได้ ตั๋ว Stupid Hackathon แล้ว
+                        สามารถแลกรับได้โดยการกรอกรหัสผ่านหน้าเว็บ EventPop
+                        ผ่านปุ่ม "แลกตั๋ว"
+                        <br />
+                        <br />
+                        หมายเหตุ: เมื่อมีผู้สุ่มได้ รหัสแลกตั๋ว Stupid Hackathon
+                        แล้ว รหัสนั้นจะไม่ถูกนำออกจากตู้กาชา หมายความว่า
+                        ผู้เล่นคนอื่นยังสามารถสุ่มได้รหัสนั้นอีกครั้ง
+                        แม้ว่ารหัสนั้นจะถูกแลกไปแล้วก็ตาม
+                    </p>
                 </section>
             </article>
         </dialog>
@@ -321,6 +366,12 @@
                     </button>
                 </header>
                 <section class="px-4 max-h-[80vh] overflow-y-auto min-h-36">
+                    <p class="text-sky-900 my-4 font-light">
+                        ประวัติการเปิด จะแสดงแค่ 500 ครั้งล่าสุดเท่านั้น
+                        <br />
+                        หากเคยสุ่มได้ตั๋ว Stupid Hackathon รหัสบัตรจะถูกแสดงต่อท้าย
+                    </p>
+
                     <table class="text-lg">
                         <thead
                             class="sticky top-0 py-4 bg-white border-b border-sky-700/20"
@@ -360,10 +411,10 @@
                     <p class="skew-x-12">ตกลง</p>
                 </button>
                 <button
-                    onclick="pull10()"
-                    class="px-12 py-4 -skew-x-12 text-2xl bg-yellow-300/90 text-yellow-900 rounded-xl shadow-md shadow-black/20 border border-sky-900/30 backdrop-blur-xl active:scale-95 transition-transform duration-200 ease-out"
+                    id="retry"
+                    class="pull px-12 py-4 -skew-x-12 text-2xl bg-yellow-300/90 text-yellow-900 rounded-xl shadow-md shadow-black/20 border border-sky-900/30 backdrop-blur-xl active:scale-95 transition-transform duration-200 ease-out disabled:active:scale-100 active:scale-95 disabled:opacity-75 disabled:cursor-wait"
                 >
-                    <p class="skew-x-12">เปิดอีกรอบ</p>
+                    <p class="skew-x-12">เปิดอีกครั้ง</p>
                 </button>
             </footer>
         </dialog>
@@ -384,15 +435,30 @@
             </a>
         </template>
 
+        <div
+            class="cf-turnstile"
+            data-sitekey="0x4AAAAAABk3opwgLerMctJc"
+            data-callback="turnstileCallback"
+        ></div>
+
         <script>
             const gacha = document.getElementById('gacha')
             const salt = document.getElementById('salt')
             const ticket = document.getElementById('ticket')
             const result = document.getElementById('gacha-result')
+            const retry = document.getElementById('retry')
             const totalPull = document.getElementById('total-pull')
+            const pulls = document.querySelectorAll('.pull')
 
             let throttle
             let pending = false
+            let token
+            let uid = localStorage.getItem('gacha-uid')
+            if (!uid)
+                localStorage.setItem(
+                    'gacha-uid',
+                    (id = Math.random().toString(36).substring(2, 10))
+                )
 
             let history = localStorage.getItem('gacha-history')
             history = history ? JSON.parse(history) : []
@@ -403,12 +469,7 @@
             document.documentElement.addEventListener(
                 'click',
                 () => {
-                    const bgm = document.getElementById('bgm')
-                    if (bgm.paused) {
-                        bgm.play().catch(() => {
-                            // Handle error if needed
-                        })
-                    }
+                    document.getElementById('bgm')?.play()
                 },
                 {
                     once: true
@@ -447,7 +508,11 @@
                     element.firstElementChild.style.animationDelay =
                         delay + 'ms'
 
-                if (Math.random() < 0.02)
+                const probability = Math.random()
+
+                if (probability < 0.005)
+                    image.setAttribute('src', `/p-chan.webp`)
+                else if (probability < 0.02)
                     image.setAttribute('src', `/koyuki.webp`)
                 else
                     image.setAttribute(
@@ -458,14 +523,38 @@
                 return element
             }
 
+            function requestNewToken() {
+                turnstile.reset()
+                pulls.forEach((pull) => {
+                    pull.disabled = true
+                })
+            }
+
             async function pull1() {
                 if (debounce(200) || pending) return
 
+                requestNewToken()
+
                 pending = true
-                const item = await fetch('/pull/1', {
-                    method: 'POST'
-                }).then((x) => x.text())
+                const response = await fetch(`/pull/1?uid=${uid}`, {
+                    method: 'POST',
+                    headers: {
+                        'X-Turnstile-Token': token
+                    }
+                })
+
+                if (!response.ok) {
+                    pending = false
+                    const data = await response.json()
+                    alert(await data.message)
+                    pending = false
+                    return
+                }
+
+                const item = await response.text()
                 pending = false
+
+                retry.onclick = pull1
 
                 while (result.firstElementChild)
                     result.removeChild(result.firstElementChild)
@@ -490,11 +579,28 @@
             async function pull10() {
                 if (debounce(2200) || pending) return
 
+                requestNewToken()
+
                 pending = true
-                const items = await fetch('/pull/10', {
-                    method: 'POST'
-                }).then((x) => x.json())
+                const response = await fetch(`/pull/10?uid=${uid}`, {
+                    method: 'POST',
+                    headers: {
+                        'X-Turnstile-Token': token
+                    }
+                })
+
+                if (!response.ok) {
+                    pending = false
+                    const data = await response.json()
+                    alert(await data.message)
+                    pending = false
+                    return
+                }
+
+                const items = await response.json()
                 pending = false
+
+                retry.onclick = pull10
 
                 while (result.firstElementChild)
                     result.removeChild(result.firstElementChild)
@@ -553,6 +659,22 @@
                 }
 
                 document.getElementById('history').setAttribute('open', '')
+            }
+
+            function turnstileCallback(turnstileToken) {
+                const verifying = document.getElementById('verifying')
+                if (!turnstileToken) {
+                    verifying.textContent =
+                        'ยืนยันตัวตนล้มเหลว กรุณาลองโหลดหน้าเว็บใหม่อีกครั้ง'
+                    verifying.classList.add('text-red-500')
+                    verifying.classList.remove('hidden')
+                }
+
+                token = turnstileToken
+
+                pulls.forEach((pull) => {
+                    pull.disabled = false
+                })
             }
         </script>
     </body>
