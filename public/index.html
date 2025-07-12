@@ -512,7 +512,7 @@
             if (!uid)
                 localStorage.setItem(
                     'gacha-uid',
-                    (id = Math.random().toString(36).substring(2, 10))
+                    (uid = Math.random().toString(36).substring(2, 10))
                 )
 
             let history = localStorage.getItem('gacha-history')
