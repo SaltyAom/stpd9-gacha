@@ -8,8 +8,11 @@ jobs:
   mirror:
     runs-on: ubuntu-latest
     env:
-      APP_NAME: hifumin
+      APP_NAME: stpd9-gacha
       IMAGE_NAME: ghcr.io/saltyaom/stpd9-gacha
+    permissions:
+      contents: read
+      packages: write
 
     steps:
     - uses: actions/checkout@v2
