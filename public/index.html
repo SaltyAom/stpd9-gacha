@@ -22,15 +22,15 @@
             rel="stylesheet"
         />
 
-        <link rel="preload" href="/public/himari-gaming.mp4" as="video" />
-        <link rel="preload" href="/public/salt-1.webp" as="image" />
-        <link rel="preload" href="/public/salt-2.webp" as="image" />
-        <link rel="preload" href="/public/salt-3.webp" as="image" />
-        <link rel="preload" href="/public/koyuki.webp" as="image" />
+        <link rel="preload" href="/himari-gaming.mp4" as="video" />
+        <link rel="preload" href="/salt-1.webp" as="image" />
+        <link rel="preload" href="/salt-2.webp" as="image" />
+        <link rel="preload" href="/salt-3.webp" as="image" />
+        <link rel="preload" href="/koyuki.webp" as="image" />
 
         <meta
             name="og:image"
-            content="https://stpd9-gacha.gehenna.sh/public/cover.webp"
+            content="https://stpd9-gacha.gehenna.sh/cover.webp"
         />
         <meta name="og:image:width" content="2942" />
         <meta name="og:image:height" content="1798" />
@@ -42,7 +42,7 @@
         <meta name="twitter:card" content="summary_large_image" />
         <meta
             name="twitter:image"
-            content="https://stpd9-gacha.gehenna.sh/public/cover.webp"
+            content="https://stpd9-gacha.gehenna.sh/cover.webp"
         />
         <meta name="twitter:title" content="Stupid Hackathon 9 Gacha" />
         <meta name="twitter:description" content="ตู้กาชา Stupid Hackathon 9" />
@@ -111,11 +111,11 @@
             loop
             muted
         >
-            <source src="/public/himari-gaming.mp4" type="video/mp4" />
+            <source src="/himari-gaming.mp4" type="video/mp4" />
         </video>
 
         <audio id="bgm" class="hidden" loop>
-            <source src="/public/ost-11.mp3" type="audio/mp3" />
+            <source src="/ost-11.mp3" type="audio/mp3" />
         </audio>
 
         <article
@@ -149,7 +149,7 @@
                         class="flex flex-1 justify-center items-center bg-sky-400/70 -skew-x-12 text-white font-semibold py-2 rounded-xl shadow-md shadow-black/20 border border-sky-900/30 active:scale-95 transition-transform duration-200 ease-out"
                     >
                         <div class="flex gap-6 font-normal skew-x-12">
-                            <img src="/public/1roll.webp" class="w-20 h-20" />
+                            <img src="/1roll.webp" class="w-20 h-20" />
                             <div
                                 class="flex flex-col justify-center gap-2 min-w-40"
                             >
@@ -173,7 +173,7 @@
                         class="flex flex-1 justify-center items-center bg-yellow-400/70 -skew-x-12 text-white font-semibold py-2 rounded-xl shadow-md shadow-black/20 border border-yellow-900/30 active:scale-95 transition-transform duration-200 ease-out"
                     >
                         <div class="flex gap-6 font-normal skew-x-12">
-                            <img src="/public/10roll.webp" class="w-20 h-20" />
+                            <img src="/10roll.webp" class="w-20 h-20" />
                             <div
                                 class="flex flex-col justify-center gap-2 min-w-40"
                             >
@@ -379,7 +379,7 @@
             <a
                 class="flex flex-col items-center gap-2 hover:scale-105 active:scale-95 transition-transform duration-200 gacha-in"
             >
-                <img class="w-36" src="/public/ticket.webp" />
+                <img class="w-36" src="/ticket.webp" />
                 ตั๋วเข้างาน:
             </a>
         </template>
@@ -448,11 +448,11 @@
                         delay + 'ms'
 
                 if (Math.random() < 0.02)
-                    image.setAttribute('src', `/public/koyuki.webp`)
+                    image.setAttribute('src', `/koyuki.webp`)
                 else
                     image.setAttribute(
                         'src',
-                        `/public/salt-${~~(Math.random() * 3) + 1}.webp`
+                        `/salt-${~~(Math.random() * 3) + 1}.webp`
                     )
 
                 return element
