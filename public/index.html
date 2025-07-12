@@ -110,6 +110,12 @@
             dialog:not([open]) {
                 display: none;
             }
+
+            @media (max-width: 48rem) {
+	            .critical-size {
+	            	zoom: 0.75;
+	            }
+            }
         </style>
     </head>
     <body
@@ -120,6 +126,7 @@
             autoplay
             loop
             muted
+            nocontrols
         >
             <source src="/himari-gaming.mp4" type="video/mp4" />
         </video>
@@ -140,14 +147,14 @@
 
                 <h1 class="text-3xl text-sky-900">ตู้เพิ่มเรทพิเศษ 1</h1>
                 <hr class="h-1 my-1 bg-gray-300 border-0" />
-                <h2 class="text-sky-500 text-lg">
+                <h2 class="text-sky-500 md:text-lg">
                     「พิเศษ」 เพิ่มโอกาสได้รับตั๋ว Stupid Hackathon ด้วย!
                 </h2>
                 <hr class="h-1 my-1 bg-gray-300 border-0" />
-                <h3 class="text-gray-600 text-lg font-light">
+                <h3 class="text-gray-600 md:text-lg font-light">
                     เมื่อเปิด 10 ครั้ง รับประกันได้เกลือขึ้นไป 1 อัน!
                 </h3>
-                <h3 class="text-gray-600 text-lg pl-2 font-light">
+                <h3 class="text-gray-600 md:text-lg pl-2 font-light">
                     ∴ หลังจากสุ่มได้ ตั๋ว Stupid Hackathon แล้ว
                     สามารถแลกรับได้โดยการกรอกรหัสผ่านหน้าเว็บ EventPop ผ่านปุ่ม
                     "แลกตั๋ว"
@@ -161,7 +168,7 @@
                 </p>
 
                 <section
-                    class="flex flex-col sm:flex-row gap-4 sm:gap-6 mt-4 sm:mt-12 px-4"
+                    class="flex flex-col sm:flex-row gap-4 sm:gap-6 mt-4 sm:mt-12 px-4 critical-size"
                 >
                     <button
                         onclick="pull1()"
@@ -226,9 +233,9 @@
             </div>
 
             <footer
-                class="flex flex-col sm:flex-row gap-2 sm:gap-6 text-2xl px-6 py-2 bg-sky-300/50"
+                class="flex flex-row gap-4 sm:gap-6 text-2xl px-6 py-2 bg-sky-300/50 critical-size text-xl"
             >
-                <div class="flex flex-1 py-1 pl-12">
+                <div class="flex flex-1 py-1 pl-6 sm:pl-12">
                     <div
                         class="flex justify-center items-center w-full -skew-x-12 border-2 border-sky-900/70 rounded"
                     >
@@ -248,14 +255,14 @@
                 </div>
                 <a
                     href="https://www.eventpop.me/e/96772/sht9"
-                    class="flex justify-center items-center px-12 py-3 -skew-x-12 bg-sky-50/70 text-center text-sky-900 rounded-xl shadow-md shadow-black/20 border border-sky-900/30 active:scale-95 transition-transform duration-200 ease-out"
+                    class="flex justify-center items-center px-6 sm:px-12 py-3 -skew-x-12 bg-sky-50/70 text-center text-sky-900 rounded-xl shadow-md shadow-black/20 border border-sky-900/30 active:scale-95 transition-transform duration-200 ease-out"
                 >
                     แลกตั๋ว
                 </a>
             </footer>
         </article>
 
-        <footer class="fixed left-0 bottom-0 flex gap-3 py-6 px-8">
+        <footer class="fixed left-0 bottom-0 flex gap-3 py-6 px-8 critical-size">
             <button
                 onclick="document.getElementById('rate').setAttribute('open', '')"
                 class="px-6 py-3 -skew-x-12 text-lg bg-gray-50/90 text-gray-600 rounded-xl shadow-md shadow-black/20 border border-sky-900/30 backdrop-blur-xl active:scale-95 transition-transform duration-200 ease-out"
@@ -408,7 +415,7 @@
 
         <dialog
             id="gacha"
-            class="fixed z-30 top-0 left-0 flex flex-col justify-center items-center w-full h-full isolate bg-sky-50/90 backdrop-blur-lg px-4 overflow-hidden fade-in"
+            class="fixed z-30 top-0 left-0 flex flex-col justify-center items-center w-full h-full isolate bg-sky-50/97.5 px-4 overflow-hidden fade-in"
         >
             <main
                 id="gacha-result"
@@ -416,7 +423,7 @@
             ></main>
 
             <footer
-                class="z-10 absolute bottom-32 lg:bottom-16 flex gap-3 sm:gap-6 text-xl sm:text-2xl"
+                class="z-10 absolute bottom-26 lg:bottom-16 flex gap-3 sm:gap-6 text-xl sm:text-2xl"
             >
                 <button
                     onclick="document.getElementById('gacha').close()"
@@ -433,7 +440,7 @@
             </footer>
 
             <div
-                class="absolute bottom-6 lg:bottom-8 right-6 lg:right-8 flex flex-col justify-center items-center max-w-48 w-full -skew-x-12 text-xl border-2 border-sky-900/70 rounded"
+                class="absolute bottom-6 lg:bottom-8 right-6 lg:right-8 flex flex-col justify-center items-center max-w-48 w-full -skew-x-12 text-xl border-2 border-sky-900/70 rounded critical-size"
             >
             	<img src="/point.webp" alt="Point" class="absolute top-0 -left-14 h-17" />
                 <p class="flex w-full justify-center p-1 bg-white">
