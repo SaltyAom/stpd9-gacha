@@ -91,7 +91,7 @@
             }
 
             .gacha-in {
-            	will-change: opacity, transform;
+                will-change: opacity, transform;
                 animation: gachaIn 0.5s var(--ease-out-expo);
                 animation-fill-mode: backwards;
             }
@@ -113,9 +113,9 @@
             }
 
             @media (max-width: 48rem) {
-	            .critical-size {
-	            	zoom: 0.75;
-	            }
+                .critical-size {
+                    zoom: 0.75;
+                }
             }
         </style>
     </head>
@@ -178,7 +178,10 @@
                         class="pull flex flex-1 justify-center items-center bg-sky-400/70 -skew-x-12 text-white font-semibold py-2 rounded-xl shadow-md shadow-black/20 border border-sky-900/30 disabled:active:scale-100 active:scale-95 transition-transform duration-200 ease-out disabled:opacity-75 disabled:cursor-wait"
                     >
                         <div class="flex gap-6 font-normal skew-x-12">
-                            <img src="/1roll.webp" class="size-16 sm:size-20 my-auto" />
+                            <img
+                                src="/1roll.webp"
+                                class="size-16 sm:size-20 my-auto"
+                            />
                             <div
                                 class="flex flex-col justify-center gap-1 sm:gap-2 min-w-40"
                             >
@@ -208,7 +211,10 @@
                         class="pull flex flex-1 justify-center items-center bg-yellow-400/70 -skew-x-12 text-white font-semibold py-2 rounded-xl shadow-md shadow-black/20 border border-yellow-900/30 disabled:active:scale-100 active:scale-95 transition-transform duration-200 ease-out disabled:opacity-75 disabled:cursor-wait"
                     >
                         <div class="flex gap-6 font-normal skew-x-12">
-                        	<img src="/10roll.webp" class="size-16 sm:size-20 my-auto" />
+                            <img
+                                src="/10roll.webp"
+                                class="size-16 sm:size-20 my-auto"
+                            />
                             <div
                                 class="flex flex-col justify-center gap-1 sm:gap-2 min-w-40"
                             >
@@ -241,7 +247,11 @@
                     <div
                         class="flex justify-center items-center w-full -skew-x-12 border-2 border-sky-900/70 rounded"
                     >
-                   		<img src="/point.webp" alt="Point" class="absolute -top-2 -left-10 h-14 sm:h-18" />
+                        <img
+                            src="/point.webp"
+                            alt="Point"
+                            class="absolute -top-2 -left-10 h-14 sm:h-18"
+                        />
                         <p class="flex flex-2 justify-center p-2.5 bg-white">
                             <span class="text-sky-800 skew-x-12">
                                 แต้มเปิดรับ
@@ -264,7 +274,9 @@
             </footer>
         </article>
 
-        <footer class="fixed left-0 bottom-0 flex gap-3 py-6 px-8 critical-size">
+        <footer
+            class="fixed left-0 bottom-0 flex gap-3 py-6 px-8 critical-size"
+        >
             <button
                 onclick="document.getElementById('rate').setAttribute('open', '')"
                 class="px-6 py-3 -skew-x-12 text-lg bg-gray-50 text-gray-600 rounded-xl shadow-md shadow-black/20 border border-sky-900/30 active:scale-95 transition-transform duration-200 ease-out"
@@ -444,15 +456,15 @@
             <div
                 class="absolute bottom-6 lg:bottom-8 right-6 lg:right-8 flex flex-col justify-center items-center max-w-48 w-full -skew-x-12 text-xl border-2 border-sky-900/70 rounded critical-size"
             >
-            	<img src="/point.webp" alt="Point" class="absolute top-0 -left-14 h-17" />
+                <img
+                    src="/point.webp"
+                    alt="Point"
+                    class="absolute top-0 -left-14 h-17"
+                />
                 <p class="flex w-full justify-center p-1 bg-white">
-                    <span class="text-sky-800 skew-x-12">
-                        แต้มเปิดรับ
-                    </span>
+                    <span class="text-sky-800 skew-x-12"> แต้มเปิดรับ </span>
                 </p>
-                <p
-                    class="flex w-full justify-center p-1 bg-sky-900/90"
-                >
+                <p class="flex w-full justify-center p-1 bg-sky-900/90">
                     <span class="text-white skew-x-12" id="total-pull-in-gacha">
                     </span>
                 </p>
@@ -488,7 +500,9 @@
             const result = document.getElementById('gacha-result')
             const retry = document.getElementById('retry')
             const totalPull = document.getElementById('total-pull')
-            const totalPullInGacha = document.getElementById('total-pull-in-gacha')
+            const totalPullInGacha = document.getElementById(
+                'total-pull-in-gacha'
+            )
             const pulls = document.querySelectorAll('.pull')
 
             let throttle
@@ -554,9 +568,12 @@
 
                 if (probability < 0.005)
                     image.setAttribute('src', `/p-chan.webp`)
-                else if (probability < 0.02)
+                else if (probability < 0.02) {
                     image.setAttribute('src', `/koyuki.webp`)
-                else
+                    setTimeout(() => {
+                        nihaha()
+                    }, delay)
+                } else
                     image.setAttribute(
                         'src',
                         `/salt-${~~(Math.random() * 3) + 1}.webp`
@@ -725,6 +742,29 @@
                 pulls.forEach((pull) => {
                     pull.disabled = false
                 })
+            }
+
+            const audioContext =
+                window.AudioContext || window.webkitAudioContext
+            const audio = new audioContext()
+
+            let nihahaSound = fetch('/nihaha.mp3')
+                .then((res) => res.arrayBuffer())
+                .then(
+                    (buffer) =>
+                        new Promise((resolve) =>
+                            audio.decodeAudioData(buffer, (buffer) => {
+                                resolve(buffer)
+                            })
+                        )
+                )
+
+            async function nihaha() {
+                const source = audio.createBufferSource()
+                source.buffer = await nihahaSound
+                source.connect(audio.destination)
+
+                source.start(0)
             }
         </script>
     </body>
