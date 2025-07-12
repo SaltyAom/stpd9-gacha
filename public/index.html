@@ -400,19 +400,19 @@
         >
             <main
                 id="gacha-result"
-                class="grid grid-cols-5 gap-8 max-w-7xl w-full mx-auto text-xl lg:text-2xl text-sky-900 text-center"
+                class="grid gap-8 max-w-7xl w-full mx-auto text-xl lg:text-2xl text-sky-900 text-center"
             ></main>
 
-            <footer class="absolute bottom-16 flex gap-6">
+            <footer class="absolute bottom-16 flex gap-3 sm:gap-6 text-xl sm:text-2xl">
                 <button
                     onclick="document.getElementById('gacha').close()"
-                    class="px-12 py-4 -skew-x-12 text-2xl bg-sky-300/90 text-sky-900 rounded-xl shadow-md shadow-black/20 border border-sky-900/30 backdrop-blur-xl active:scale-95 transition-transform duration-200 ease-out"
+                    class="px-8 sm:px-12 py-3 sm:py-4 -skew-x-12 bg-sky-300/90 text-sky-900 rounded-xl shadow-md shadow-black/20 border border-sky-900/30 backdrop-blur-xl active:scale-95 transition-transform duration-200 ease-out"
                 >
                     <p class="skew-x-12">ตกลง</p>
                 </button>
                 <button
                     id="retry"
-                    class="pull px-12 py-4 -skew-x-12 text-2xl bg-yellow-300/90 text-yellow-900 rounded-xl shadow-md shadow-black/20 border border-sky-900/30 backdrop-blur-xl active:scale-95 transition-transform duration-200 ease-out disabled:active:scale-100 active:scale-95 disabled:opacity-75 disabled:cursor-wait"
+                    class="pull px-8 sm:px-12 py-3 sm:py-4 -skew-x-12 bg-yellow-300/90 text-yellow-900 rounded-xl shadow-md shadow-black/20 border border-sky-900/30 backdrop-blur-xl active:scale-95 transition-transform duration-200 ease-out disabled:active:scale-100 active:scale-95 disabled:opacity-75 disabled:cursor-wait"
                 >
                     <p class="skew-x-12">เปิดอีกครั้ง</p>
                 </button>
@@ -555,6 +555,9 @@
                 pending = false
 
                 retry.onclick = pull1
+                result.classList.remove('grid-cols-4')
+                result.classList.remove('sm:grid-cols-5')
+                result.classList.add('grid-cols-1')
 
                 while (result.firstElementChild)
                     result.removeChild(result.firstElementChild)
@@ -601,6 +604,9 @@
                 pending = false
 
                 retry.onclick = pull10
+                result.classList.add('grid-cols-4')
+                result.classList.add('sm:grid-cols-5')
+                result.classList.remove('grid-cols-1')
 
                 while (result.firstElementChild)
                     result.removeChild(result.firstElementChild)
