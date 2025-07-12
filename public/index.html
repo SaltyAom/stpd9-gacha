@@ -91,6 +91,7 @@
             }
 
             .gacha-in {
+            	will-change: opacity, transform;
                 animation: gachaIn 0.5s var(--ease-out-expo);
                 animation-fill-mode: backwards;
             }
@@ -98,7 +99,7 @@
             @keyframes gachaIn {
                 from {
                     opacity: 0;
-                    transform: scale(0.8);
+                    transform: scale(0.9);
                 }
 
                 to {
@@ -234,7 +235,7 @@
             </div>
 
             <footer
-                class="flex flex-row gap-4 sm:gap-6 text-2xl px-4 sm:px-6 py-2 bg-sky-300/50 critical-size text-xl"
+                class="flex flex-row gap-4 sm:gap-6 text-2xl px-4 sm:px-6 py-2 bg-sky-300/50 critical-size"
             >
                 <div class="flex flex-1 py-1 pl-8 sm:pl-12">
                     <div
@@ -416,7 +417,7 @@
 
         <dialog
             id="gacha"
-            class="fixed z-30 top-0 left-0 flex flex-col justify-center items-center w-full h-full isolate bg-sky-50/98 px-4 overflow-hidden fade-in"
+            class="fixed z-30 top-0 left-0 flex flex-col justify-center items-center w-full h-full isolate bg-sky-50/90 backdrop-blur-xl px-4 overflow-hidden fade-in"
         >
             <main
                 id="gacha-result"
