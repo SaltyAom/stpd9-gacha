@@ -5,7 +5,7 @@ import { opentelemetry } from '@elysiajs/opentelemetry'
 import { BatchSpanProcessor } from '@opentelemetry/sdk-trace-node'
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-proto'
 
-const rate = 0.000005 // 0.0005% chance to pull
+const rate = 0.00001 // 0.001% chance to pull
 
 const pool = process.env.POOL?.split(',') || []
 const pull = () => pool[~~(Math.random() * pool.length)]
