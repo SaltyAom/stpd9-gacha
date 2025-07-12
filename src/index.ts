@@ -1,6 +1,6 @@
 import { Elysia, t } from 'elysia'
 import { staticPlugin } from '@elysiajs/static'
-import { opentelemetry } from '@elysiajs/opentelemetry'
+import { opentelemetry, setAttributes } from '@elysiajs/opentelemetry'
 
 import { BatchSpanProcessor } from '@opentelemetry/sdk-trace-node'
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-proto'
@@ -8,7 +8,15 @@ import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-proto'
 const rate = 0.00001 // 0.001% chance to pull
 
 const pool = process.env.POOL?.split(',') || []
-const pull = () => pool[~~(Math.random() * pool.length)]
+const pull = () => {
+    const ticket = pool[~~(Math.random() * pool.length)]
+
+    setAttributes({
+        'custom.ticket': ticket
+    })
+
+    return ticket
+}
 
 const app = new Elysia()
     .env(
