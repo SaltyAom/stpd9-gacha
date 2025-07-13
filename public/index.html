@@ -99,7 +99,7 @@
             @keyframes gachaIn {
                 from {
                     opacity: 0;
-                    transform: scale(0.9);
+                    transform: scale(0.8);
                 }
 
                 to {
@@ -112,7 +112,7 @@
                 display: none;
             }
 
-            @media (max-width: 48rem) {
+            @media (max-width: 40rem) {
                 .critical-size {
                     zoom: 0.75;
                 }
@@ -431,15 +431,15 @@
 
         <dialog
             id="gacha"
-            class="fixed z-30 top-0 left-0 flex flex-col justify-center items-center w-full h-full isolate bg-sky-50/90 backdrop-blur-xl px-4 overflow-hidden fade-in"
+            class="fixed z-30 top-0 left-0 flex flex-col justify-center items-center w-full h-full isolate bg-sky-50/97 backdrop-blur-lg px-4 overflow-hidden fade-in"
         >
             <main
                 id="gacha-result"
-                class="grid gap-8 max-w-7xl w-full mx-auto pb-20 lg:pb-0 text-xl lg:text-2xl text-sky-900 text-center"
+                class="grid gap-8 max-w-7xl w-full mx-auto pb-24 lg:pb-0 text-xl lg:text-2xl text-sky-900 text-center"
             ></main>
 
             <footer
-                class="z-10 absolute bottom-26 lg:bottom-16 flex gap-3 sm:gap-6 text-xl sm:text-2xl"
+                class="z-10 absolute bottom-30 lg:bottom-16 flex gap-3 sm:gap-6 text-xl sm:text-2xl"
             >
                 <button
                     onclick="document.getElementById('gacha').close()"
