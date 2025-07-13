@@ -29,11 +29,6 @@ const ipLimiter = new RateLimiterMemory({
     duration: 10
 })
 
-const uidLimiter = new RateLimiterMemory({
-    points: 5,
-    duration: 6
-})
-
 const botFight = new RateLimiterMemory({
     points: 5,
     duration: 6
@@ -86,12 +81,12 @@ const app = new Elysia()
                 status,
                 request,
                 server,
-                query: { uid },
                 cookie: { __cf_bm }
             }) {
-                if (!headers['x-turnstile-token'])
+                if (!headers['x-turnstile-token'] || !__cf_bm.value)
                     return status(400, {
-                        message: 'Missing Turnstile token'
+                        message:
+                            'ยืนยันตัวตนไม่สำเร็จ กรุณาลองโหลดหน้าเว็บใหม่อีกครั้ง'
                     })
 
                 const formData = new FormData()
@@ -114,8 +109,7 @@ const app = new Elysia()
                 try {
                     await Promise.all([
                         ip && ipLimiter.consume(ip),
-                        uidLimiter.consume(uid),
-                        __cf_bm.value && botFight.consume(__cf_bm.value)
+                        botFight.consume(__cf_bm.value)
                     ])
                 } catch {
                     return status(429, {
