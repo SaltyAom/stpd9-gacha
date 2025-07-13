@@ -113,7 +113,7 @@ const app = new Elysia()
                     else if (probability < pchan)
                         record('p chan', () => result.push('p'))
                     else if (probability < koyuki)
-                        record('k', () => result.push('k'))
+                        record('koyuki', () => result.push('k'))
                     else result.push(null)
                 }
 
