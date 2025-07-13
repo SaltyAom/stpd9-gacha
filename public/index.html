@@ -122,16 +122,18 @@
     <body
         class="flex justify-center items-start min-h-screen overflow-hidden px-2"
     >
-        <video
-            class="absolute top-0 left-0 w-full h-full object-cover object-center scale-135"
-            autoplay
-            loop
-            muted
-            nocontrols
-            playsinline
-        >
-            <source src="/himari-gaming.mp4" type="video/mp4" />
-        </video>
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden">
+            <video
+                class="w-full h-full object-cover object-center scale-135"
+                autoplay
+                loop
+                muted
+                nocontrols
+                playsinline
+            >
+                <source src="/himari-gaming.mp4" type="video/mp4" />
+            </video>
+        </div>
 
         <audio id="bgm" class="hidden" loop>
             <source src="/ost-11.mp3" type="audio/mp3" />
