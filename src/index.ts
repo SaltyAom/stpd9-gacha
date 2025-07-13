@@ -25,13 +25,18 @@ const pull = () =>
     })
 
 const ipLimiter = new RateLimiterMemory({
-    points: 20,
+    points: 25,
     duration: 10
 })
 
 const uidLimiter = new RateLimiterMemory({
     points: 10,
     duration: 5
+})
+
+const botFight = new RateLimiterMemory({
+    points: 4,
+    duration: 6
 })
 
 const app = new Elysia()
@@ -80,7 +85,9 @@ const app = new Elysia()
                 headers,
                 status,
                 request,
-                server
+                server,
+                query: { uid },
+                cookie: { __cf_bm }
             }) {
                 if (!headers['x-turnstile-token'])
                     return status(400, {
@@ -102,18 +109,19 @@ const app = new Elysia()
                     setAttributes({
                         'client.ip': ip
                     })
+                }
 
-                    try {
-                        await Promise.all([
-                            ipLimiter.consume(ip).then(() => {}),
-                            uidLimiter.consume(ip)
-                        ])
-                    } catch {
-                        return status(429, {
-                            message:
-                                'บัตรกำลังจัดลำดับใหม่ กรุณาลองใหม่ในอีกสักครู่'
-                        })
-                    }
+                try {
+                    await Promise.all([
+                        ip && ipLimiter.consume(ip),
+                        uidLimiter.consume(uid),
+                        __cf_bm.value && botFight.consume(__cf_bm.value)
+                    ])
+                } catch {
+                    return status(429, {
+                        message:
+                            'บัตรกำลังจัดลำดับใหม่ กรุณาลองใหม่ในอีกสักครู่'
+                    })
                 }
 
                 const data = await fetch(
