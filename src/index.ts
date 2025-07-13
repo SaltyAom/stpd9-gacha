@@ -25,7 +25,7 @@ const pull = () =>
     })
 
 const ipLimiter = new RateLimiterMemory({
-    points: 30,
+    points: 25,
     duration: 10
 })
 
