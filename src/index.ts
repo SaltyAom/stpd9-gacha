@@ -30,12 +30,12 @@ const ipLimiter = new RateLimiterMemory({
 })
 
 const uidLimiter = new RateLimiterMemory({
-    points: 3,
+    points: 5,
     duration: 6
 })
 
 const botFight = new RateLimiterMemory({
-    points: 3,
+    points: 5,
     duration: 6
 })
 
