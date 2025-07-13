@@ -63,10 +63,10 @@
             }
 
             .fade-in {
-                animation: fadeIn 0.5s var(--ease-out-expo);
+                animation: fade-in 0.5s var(--ease-out-expo);
             }
 
-            @keyframes fadeIn {
+            @keyframes fade-in {
                 from {
                     opacity: 0;
                 }
@@ -76,13 +76,13 @@
             }
 
             .slide-up {
-                animation: slideUp 0.5s var(--ease-out-expo);
+                animation: slide-up 0.5s var(--ease-out-expo);
             }
 
-            @keyframes slideUp {
+            @keyframes slide-up {
                 from {
                     opacity: 0;
-                    transform: translateY(25vh);
+                    transform: translateY(37.5vh);
                 }
                 to {
                     opacity: 1;
@@ -92,11 +92,11 @@
 
             .gacha-in {
                 will-change: opacity, transform;
-                animation: gachaIn 0.5s var(--ease-out-expo);
+                animation: gacha-in 0.5s var(--ease-out-expo);
                 animation-fill-mode: backwards;
             }
 
-            @keyframes gachaIn {
+            @keyframes gacha-in {
                 from {
                     opacity: 0;
                     transform: scale(0.8);
@@ -119,9 +119,7 @@
             }
         </style>
     </head>
-    <body
-        class="flex flex-col justify-center items-start min-h-screen p-3"
-    >
+    <body class="flex flex-col justify-center items-start min-h-screen p-3">
         <div class="fixed top-0 left-0 w-full h-full overflow-hidden">
             <video
                 class="w-full h-full object-cover object-center scale-135"
@@ -286,7 +284,7 @@
                 <p class="skew-x-12">อัตราได้รับ</p>
             </button>
             <button
-                onclick="loadHistory()"
+                onclick="renderHistory()"
                 class="px-6 py-3 -skew-x-12 text-lg bg-sky-950/85 backdrop-blur-lg text-white rounded-xl shadow-md shadow-black/20 border border-sky-900/30 active:scale-95 transition-transform duration-200 ease-out"
             >
                 <p class="skew-x-12">ประวัติการเปิด</p>
@@ -335,11 +333,11 @@
                                 <td class="w-full min-w-72">
                                     รหัสรับตั๋ว Stupid Hackathon (Limited)
                                 </td>
-                                <td class="min-w-36">3 ใบ (ซ้ำได้)</td>
+                                <td class="min-w-36">4 ใบ (ซ้ำได้)</td>
                                 <td class="min-w-42">0.001%</td>
                             </tr>
                             <tr class="*:px-4 *:py-2">
-                                <td class="w-full min-w-72">เกลือตรา P-chan</td>
+                                <td class="w-full min-w-72">เกลือตรา p-chan</td>
                                 <td class="min-w-36">ไม่จำกัด</td>
                                 <td class="min-w-42">0.5%</td>
                             </tr>
@@ -507,6 +505,11 @@
             )
             const pulls = document.querySelectorAll('.pull')
 
+            const gachaResultMap = {
+                p: 'เกลือตรา p-chan',
+                k: 'เกลือตรา Koyuki'
+            }
+
             let throttle
             let pending = false
             let token
@@ -516,13 +519,6 @@
                     'gacha-uid',
                     (uid = Math.random().toString(36).substring(2, 10))
                 )
-
-            let history = localStorage.getItem('gacha-history')
-            history = history ? JSON.parse(history) : []
-
-            const formatNumber = new Intl.NumberFormat('es-US').format
-            totalPull.textContent = formatNumber(history.length)
-            totalPullInGacha.textContent = formatNumber(history.length)
 
             document.documentElement.addEventListener(
                 'click',
@@ -534,6 +530,71 @@
                 }
             )
 
+            function readHistory() {
+                let total = localStorage.getItem('gacha-total') ?? 0
+                total = isNaN(+total) ? 0 : +total
+
+                let ticketMap = localStorage.getItem('gacha-ticket-history')
+                ticketMap = ticketMap ? JSON.parse(ticketMap) : {}
+
+                // migrate old history
+                let oldHistory = localStorage.getItem('gacha-history')
+                if (oldHistory) {
+                    oldHistory = JSON.parse(oldHistory)
+
+                    for (let i = 0; i < oldHistory.length; i++) {
+                        const pull = oldHistory[i]
+                        if (!pull) continue
+
+                        ticketMap[i + total] = pull
+                    }
+
+                    localStorage.setItem(
+                        'gacha-total',
+                        total + oldHistory.length
+                    )
+                    localStorage.setItem(
+                        'gacha-ticket-history',
+                        JSON.stringify(ticketMap)
+                    )
+                    localStorage.removeItem('gacha-history')
+
+                    return readHistory()
+                }
+
+                return { total, ticketMap }
+            }
+
+            function updateHistory(pulls) {
+                const { total, ticketMap } = readHistory()
+                const totalTicket = Object.keys(ticketMap).length
+                const newTotal = total + pulls.length
+
+                localStorage.setItem('gacha-total', newTotal)
+
+                for (let i = 0; i < pulls.length; i++) {
+                    const pull = pulls[i]
+                    if (!pull) continue
+
+                    ticketMap[i + total] = pull
+                }
+
+                if (totalTicket !== Object.keys(ticketMap).length)
+                    localStorage.setItem(
+                        'gacha-ticket-history',
+                        JSON.stringify(ticketMap)
+                    )
+
+                totalPull.textContent = totalPullInGacha.textContent =
+                    formatNumber(newTotal)
+            }
+
+            const { total, ticketMap } = readHistory()
+
+            const formatNumber = new Intl.NumberFormat('es-US').format
+            totalPull.textContent = totalPullInGacha.textContent =
+                formatNumber(total)
+
             function debounce(ms) {
                 if (throttle) return throttle
 
@@ -543,6 +604,13 @@
                         resolve()
                     }, ms)
                 })
+            }
+
+            function createGachaResult(code, delay) {
+                if (!code || code === 'p' || code === 'k')
+                    return createSalt(code, delay)
+
+                return createTicket(code, delay)
             }
 
             function createTicket(code, delay) {
@@ -558,7 +626,7 @@
                 return element
             }
 
-            function createSalt(delay) {
+            function createSalt(code, delay) {
                 const element = salt.content.cloneNode(true)
                 const image = element.firstElementChild.firstElementChild
 
@@ -566,11 +634,8 @@
                     element.firstElementChild.style.animationDelay =
                         delay + 'ms'
 
-                const probability = Math.random()
-
-                if (probability < 0.005)
-                    image.setAttribute('src', `/p-chan.webp`)
-                else if (probability < 0.03) {
+                if (code === 'p') image.setAttribute('src', `/p-chan.webp`)
+                else if (code === 'k') {
                     image.setAttribute('src', `/koyuki.webp`)
                     setTimeout(() => {
                         nihaha()
@@ -606,9 +671,10 @@
 
                 if (!response.ok) {
                     pending = false
-                    const data = await response.json()
-                    alert(await data.message)
-                    pending = false
+
+                    const error = await response.json()
+                    alert(error.message)
+
                     return
                 }
 
@@ -620,25 +686,15 @@
                 result.classList.remove('sm:grid-cols-5')
                 result.classList.add('grid-cols-1')
 
-                while (result.firstElementChild)
-                    result.removeChild(result.firstElementChild)
+                while (result.lastChild) result.removeChild(result.lastChild)
 
                 result.appendChild(document.createElement('div'))
                 result.appendChild(document.createElement('div'))
 
-                if (item) result.appendChild(createTicket(item, 200))
-                else result.appendChild(createSalt(200))
+                result.appendChild(createGachaResult(item, 200))
 
                 gacha.setAttribute('open', '')
-
-                let history = localStorage.getItem('gacha-history')
-                history = history ? JSON.parse(history) : []
-
-                history.push(item)
-                localStorage.setItem('gacha-history', JSON.stringify(history))
-
-                totalPull.textContent = formatNumber(history.length)
-                totalPullInGacha.textContent = formatNumber(history.length)
+                updateHistory([item])
             }
 
             async function pull10() {
@@ -670,62 +726,51 @@
                 result.classList.add('sm:grid-cols-5')
                 result.classList.remove('grid-cols-1')
 
-                while (result.firstElementChild)
-                    result.removeChild(result.firstElementChild)
+                while (result.lastChild) result.removeChild(result.lastChild)
 
                 for (let i = 0; i < items.length; i++) {
                     const item = items[i]
 
-                    if (item)
-                        result.appendChild(createTicket(item, 200 + i * 200))
-                    else result.appendChild(createSalt(200 + i * 200))
+                    result.appendChild(createGachaResult(item, 200 + i * 200))
                 }
 
                 gacha.setAttribute('open', '')
-
-                let history = localStorage.getItem('gacha-history')
-                history = history ? JSON.parse(history) : []
-
-                history.push(...items)
-                localStorage.setItem('gacha-history', JSON.stringify(history))
-
-                totalPull.textContent = formatNumber(history.length)
-                totalPullInGacha.textContent = formatNumber(history.length)
+                updateHistory(items)
             }
 
-            function loadHistory() {
-                const history = localStorage.getItem('gacha-history')
+            function renderHistory() {
+                let { total, ticketMap } = readHistory()
 
                 const historyDialog = document.getElementById('history')
                 const tbody = historyDialog.querySelector('tbody')
-                while (tbody.firstElementChild)
-                    tbody.removeChild(tbody.firstElementChild)
+                while (tbody.lastChild) tbody.removeChild(tbody.lastChild)
 
-                if (history) {
-                    const items = JSON.parse(history)
+                const limit = Math.max(total - 500, 0)
 
-                    items.slice(-500).forEach((item, index) => {
+                if (total)
+                    while (total-- > limit) {
                         const tr = document.createElement('tr')
                         tr.classList.add('*:px-4', '*:py-2')
 
                         const tdIndex = document.createElement('td')
                         tdIndex.classList.add('min-w-24')
-                        tdIndex.textContent = formatNumber(
-                            index + 1 + Math.max(0, items.length - 500)
-                        )
+                        tdIndex.textContent = formatNumber(total + 1)
 
                         const tdName = document.createElement('td')
                         tdName.classList.add('w-full')
-                        tdName.textContent = item
-                            ? `ตั๋วเข้างาน Stupid Hackathon รหัส: ${item}`
-                            : 'เกลือ'
+
+                        const code = ticketMap[total]
+                        tdName.textContent =
+                            gachaResultMap[code] ??
+                            (code
+                                ? `ตั๋วเข้างาน Stupid Hackathon รหัส: ${code}`
+                                : 'เกลือ')
 
                         tr.appendChild(tdIndex)
                         tr.appendChild(tdName)
 
-                        tbody.prepend(tr)
-                    })
-                }
+                        tbody.appendChild(tr)
+                    }
 
                 document.getElementById('history').setAttribute('open', '')
             }

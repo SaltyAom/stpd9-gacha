@@ -5,7 +5,9 @@ import { opentelemetry, setAttributes, record } from '@elysiajs/opentelemetry'
 import { BatchSpanProcessor } from '@opentelemetry/sdk-trace-node'
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-proto'
 
-const rate = 0.00001 // 0.001% chance to pull
+const rate = 0.001 / 100
+const pchan = 0.5 / 100
+const koyuki = 2 / 100
 
 const pool = process.env.POOL?.split(',') || []
 const pull = () =>
@@ -85,7 +87,13 @@ const app = new Elysia()
     .post(
         '/pull/1',
         ({ query: { uid } }) =>
-            record(`uid: ${uid}`, () => (Math.random() < rate ? pull() : null)),
+            record(`uid: ${uid}`, () => {
+                const probability = Math.random()
+                if (probability < rate) return pull()
+                if (probability < pchan) return 'p'
+                if (probability < koyuki) return 'k'
+                return null
+            }),
         {
             turnstile: true,
             headers: 'turnstile',
@@ -99,8 +107,13 @@ const app = new Elysia()
                 const result = []
 
                 let i = 10
-                while (i-- > 0)
-                    result.push(Math.random() < rate ? pull() : null)
+                while (i-- > 0) {
+                    const probability = Math.random()
+                    if (probability < rate) result.push(pull())
+                    else if (probability < pchan) result.push('p')
+                    else if (probability < koyuki) result.push('k')
+                    else result.push(null)
+                }
 
                 return result
             }),
