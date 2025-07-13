@@ -9,7 +9,7 @@ const rate = 0.00001 // 0.001% chance to pull
 
 const pool = process.env.POOL?.split(',') || []
 const pull = () =>
-    record('Pool', () => {
+    record('Pull', () => {
         const ticket = pool[~~(Math.random() * pool.length)]
 
         setAttributes({
@@ -47,11 +47,11 @@ const app = new Elysia()
         })
     )
     .model({
-        turnstile: t.Object({
-            'x-turnstile-token': t.String()
-        }),
         uid: t.Object({
             uid: t.String()
+        }),
+        turnstile: t.Object({
+            'x-turnstile-token': t.String()
         })
     })
     .macro({
