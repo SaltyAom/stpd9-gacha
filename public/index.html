@@ -607,7 +607,7 @@
             }
 
             function createGachaResult(code, delay) {
-                if (!code || code === 'p' || code === 'k' || code.length < 2)
+                if (!code || code === 'p' || code === 'k' || code.length <= 2)
                     return createSalt(code, delay)
 
                 return createTicket(code, delay)
