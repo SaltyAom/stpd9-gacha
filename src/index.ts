@@ -65,9 +65,14 @@ const app = new Elysia()
         uid: t.Object({
             uid: t.String()
         }),
-        turnstile: t.Object({
-            'x-turnstile-token': t.String()
-        })
+        turnstile: t.Object(
+            {
+                'x-turnstile-token': t.String()
+            },
+            {
+                additionalProperties: true
+            }
+        )
     })
     .macro({
         turnstile: {
@@ -86,12 +91,21 @@ const app = new Elysia()
                 formData.append('secret', process.env.TURNSTILE_SECRET!)
                 formData.append('response', headers['x-turnstile-token'])
 
+                console.log({ headers })
+
                 const ip =
                     headers['x-real-ip'] ||
                     headers['cf-connecting-ip'] ||
                     server?.requestIP(request)?.address
 
                 if (ip) {
+                    // disable IP from local (Cloudflare)
+                    // if (ip.startsWith('::ffff:10.0.0'))
+                    //     return status(400, {
+                    //         message:
+                    //             'ต้องกดกาชาจาก browser น้าา (ลองปิด vpn ดูก่อนนะ)'
+                    //     })
+
                     formData.append('ip', ip)
 
                     setAttributes({
