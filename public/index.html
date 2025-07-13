@@ -607,7 +607,7 @@
             }
 
             function createGachaResult(code, delay) {
-                if (!code || code === 'p' || code === 'k')
+                if (!code || code === 'p' || code === 'k' || code.length < 2)
                     return createSalt(code, delay)
 
                 return createTicket(code, delay)
@@ -634,17 +634,28 @@
                     element.firstElementChild.style.animationDelay =
                         delay + 'ms'
 
-                if (code === 'p') image.setAttribute('src', `/p-chan.webp`)
-                else if (code === 'k') {
-                    image.setAttribute('src', `/koyuki.webp`)
-                    setTimeout(() => {
-                        nihaha()
-                    }, delay)
-                } else
-                    image.setAttribute(
-                        'src',
-                        `/salt-${~~(Math.random() * 3) + 1}.webp`
-                    )
+                switch (code) {
+                    case 'p':
+                        image.setAttribute('src', `/p-chan.webp`)
+                        break
+
+                    case 'k':
+                        image.setAttribute('src', `/koyuki.webp`)
+                        setTimeout(() => {
+                            nihaha()
+                        }, delay)
+                        break
+
+                    case 'c':
+                        image.setAttribute('src', '/pub.web')
+                        break
+
+                    default:
+                        image.setAttribute(
+                            'src',
+                            `/salt-${~~(Math.random() * 3) + 1}.webp`
+                        )
+                }
 
                 return element
             }
