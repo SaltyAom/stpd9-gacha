@@ -12,7 +12,7 @@ const pull = () => {
     const ticket = pool[~~(Math.random() * pool.length)]
 
     setAttributes({
-        'custom.ticket': ticket
+        'ticket': ticket
     })
 
     return ticket
