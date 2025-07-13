@@ -507,7 +507,8 @@
 
             const gachaResultMap = {
                 p: 'เกลือตรา p chan',
-                k: 'เกลือตรา Koyuki'
+                k: 'เกลือตรา Koyuki',
+                c: 'เกลือตราเสี่ยปั๊ป'
             }
 
             let throttle
@@ -607,7 +608,7 @@
             }
 
             function createGachaResult(code, delay) {
-                if (!code || code === 'p' || code === 'k' || code.length <= 2)
+                if (!code || code in gachaResultMap || code.length <= 2)
                     return createSalt(code, delay)
 
                 return createTicket(code, delay)
