@@ -1,9 +1,11 @@
-import { Elysia, t } from 'elysia'
+import { Elysia, t, status } from 'elysia'
 import { staticPlugin } from '@elysiajs/static'
 import { opentelemetry, setAttributes, record } from '@elysiajs/opentelemetry'
 
 import { BatchSpanProcessor } from '@opentelemetry/sdk-trace-node'
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-proto'
+
+import { RateLimiterMemory } from 'rate-limiter-flexible'
 
 const rate = 0.001 / 100
 const pub = 0.1 / 100
@@ -21,6 +23,16 @@ const pull = () =>
 
         return ticket
     })
+
+const ipLimiter = new RateLimiterMemory({
+    points: 50,
+    duration: 10
+})
+
+const uidLimiter = new RateLimiterMemory({
+    points: 10,
+    duration: 5
+})
 
 const app = new Elysia()
     .env(
@@ -59,7 +71,12 @@ const app = new Elysia()
     })
     .macro({
         turnstile: {
-            beforeHandle: async function turnstile({ headers, status }) {
+            beforeHandle: async function turnstile({
+                headers,
+                status,
+                request,
+                server
+            }) {
                 if (!headers['x-turnstile-token'])
                     return status(400, {
                         message: 'Missing Turnstile token'
@@ -68,6 +85,31 @@ const app = new Elysia()
                 const formData = new FormData()
                 formData.append('secret', process.env.TURNSTILE_SECRET!)
                 formData.append('response', headers['x-turnstile-token'])
+
+                const ip =
+                    headers['x-real-ip'] ||
+                    headers['cf-connecting-ip'] ||
+                    server?.requestIP(request)?.address
+
+                if (ip) {
+                    formData.append('ip', ip)
+
+                    setAttributes({
+                        'client.ip': ip
+                    })
+
+                    try {
+                        await Promise.all([
+                            ipLimiter.consume(ip).then(() => {}),
+                            uidLimiter.consume(ip)
+                        ])
+                    } catch {
+                        return status(429, {
+                            message:
+                                'บัตรกำลังจัดลำดับใหม่ กรุณาลองใหม่ในอีกสักครู่'
+                        })
+                    }
+                }
 
                 const data = await fetch(
                     'https://challenges.cloudflare.com/turnstile/v0/siteverify',
@@ -113,7 +155,7 @@ const app = new Elysia()
                     const probability = Math.random()
                     if (probability < rate) result.push(pull())
                     else if (probability < pub)
-						record('pub', () => result.push('c'))
+                        record('pub', () => result.push('c'))
                     else if (probability < pchan)
                         record('p chan', () => result.push('p'))
                     else if (probability < koyuki)
