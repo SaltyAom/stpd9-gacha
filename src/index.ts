@@ -25,7 +25,7 @@ const pull = () =>
     })
 
 const ipLimiter = new RateLimiterMemory({
-    points: 25,
+    points: 20,
     duration: 10
 })
 
@@ -90,8 +90,6 @@ const app = new Elysia()
                 const formData = new FormData()
                 formData.append('secret', process.env.TURNSTILE_SECRET!)
                 formData.append('response', headers['x-turnstile-token'])
-
-                console.log({ headers })
 
                 const ip =
                     headers['x-real-ip'] ||
