@@ -49,17 +49,20 @@ const app = new Elysia()
     .model({
         turnstile: t.Object({
             'x-turnstile-token': t.String()
+        }),
+        uid: t.Object({
+            uid: t.String()
         })
     })
     .macro({
         turnstile: {
-            async beforeHandle({ headers, status }) {
+            beforeHandle: async function turnstile({ headers, status }) {
                 if (!headers['x-turnstile-token'])
                     return status(400, {
                         message: 'Missing Turnstile token'
                     })
 
-                let formData = new FormData()
+                const formData = new FormData()
                 formData.append('secret', process.env.TURNSTILE_SECRET!)
                 formData.append('response', headers['x-turnstile-token'])
 
@@ -81,19 +84,18 @@ const app = new Elysia()
     })
     .post(
         '/pull/1',
-        ({ headers }) =>
-            record(`uid: ${headers['x-turnstile-token']}`, () =>
-                Math.random() < rate ? pull() : null
-            ),
+        ({ query: { uid } }) =>
+            record(`uid: ${uid}`, () => (Math.random() < rate ? pull() : null)),
         {
             turnstile: true,
-            headers: 'turnstile'
+            headers: 'turnstile',
+            query: 'uid'
         }
     )
     .post(
         '/pull/10',
-        ({ headers }) =>
-            record(`uid: ${headers['x-turnstile-token']}`, () => {
+        ({ query: { uid } }) =>
+            record(`uid: ${uid}`, () => {
                 const result = []
 
                 let i = 10
@@ -104,7 +106,8 @@ const app = new Elysia()
             }),
         {
             turnstile: true,
-            headers: 'turnstile'
+            headers: 'turnstile',
+            query: 'uid'
         }
     )
     .listen(3000)
