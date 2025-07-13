@@ -7,7 +7,7 @@ import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-proto'
 
 const rate = 0.001 / 100
 const pchan = 0.5 / 100
-const koyuki = 2 / 100
+const koyuki = 3 / 100
 
 const pool = process.env.POOL?.split(',') || []
 const pull = () =>
