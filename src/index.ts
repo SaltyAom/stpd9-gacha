@@ -79,20 +79,29 @@ const app = new Elysia()
             }
         }
     })
-    .post('/pull/1', () => (Math.random() < rate ? pull() : null), {
-        turnstile: true,
-        headers: 'turnstile'
-    })
+    .post(
+        '/pull/1',
+        ({ headers }) =>
+            record(`uid: ${headers['x-turnstile-token']}`, () =>
+                Math.random() < rate ? pull() : null
+            ),
+        {
+            turnstile: true,
+            headers: 'turnstile'
+        }
+    )
     .post(
         '/pull/10',
-        () => {
-            const result = []
+        ({ headers }) =>
+            record(`uid: ${headers['x-turnstile-token']}`, () => {
+                const result = []
 
-            let i = 10
-            while (i-- > 0) result.push(Math.random() < rate ? pull() : null)
+                let i = 10
+                while (i-- > 0)
+                    result.push(Math.random() < rate ? pull() : null)
 
-            return result
-        },
+                return result
+            }),
         {
             turnstile: true,
             headers: 'turnstile'
