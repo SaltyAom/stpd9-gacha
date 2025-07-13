@@ -90,8 +90,8 @@ const app = new Elysia()
             record(`uid: ${uid}`, () => {
                 const probability = Math.random()
                 if (probability < rate) return pull()
-                if (probability < pchan) return 'p'
-                if (probability < koyuki) return 'k'
+                if (probability < pchan) return record('p chan', () => 'p')
+                if (probability < koyuki) return record('koyuki', () => 'k')
                 return null
             }),
         {
@@ -110,8 +110,10 @@ const app = new Elysia()
                 while (i-- > 0) {
                     const probability = Math.random()
                     if (probability < rate) result.push(pull())
-                    else if (probability < pchan) result.push('p')
-                    else if (probability < koyuki) result.push('k')
+                    else if (probability < pchan)
+                        record('p chan', () => result.push('p'))
+                    else if (probability < koyuki)
+                        record('k', () => result.push('k'))
                     else result.push(null)
                 }
 
