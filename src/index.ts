@@ -25,7 +25,7 @@ const pull = () =>
     })
 
 const ipLimiter = new RateLimiterMemory({
-    points: 25,
+    points: 20,
     duration: 10
 })
 
@@ -81,9 +81,9 @@ const app = new Elysia()
                 status,
                 request,
                 server,
-                cookie: { __cf_bm }
+                query: { uid }
             }) {
-                if (!headers['x-turnstile-token'] || !__cf_bm.value)
+                if (!headers['x-turnstile-token'])
                     return status(400, {
                         message:
                             'ยืนยันตัวตนไม่สำเร็จ กรุณาลองโหลดหน้าเว็บใหม่อีกครั้ง'
@@ -99,7 +99,7 @@ const app = new Elysia()
                     server?.requestIP(request)?.address
 
                 if (ip) {
-                    formData.append('ip', ip)
+                    formData.append('remoteip', ip)
 
                     setAttributes({
                         'client.ip': ip
@@ -109,7 +109,7 @@ const app = new Elysia()
                 try {
                     await Promise.all([
                         ip && ipLimiter.consume(ip),
-                        botFight.consume(__cf_bm.value)
+                        uid && botFight.consume(uid)
                     ])
                 } catch {
                     return status(429, {
@@ -125,6 +125,8 @@ const app = new Elysia()
                         body: formData
                     }
                 ).then((response) => response.json())
+
+                console.log(data)
 
                 if (!data.success)
                     return status(400, {
